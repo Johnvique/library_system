@@ -15,6 +15,11 @@ class CreatePenaltiesTable extends Migration
     {
         Schema::create('penalties', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('penalty');
+            $table->string('reason');
+            $table->string('date_charged');
+            $table->string('timeline');
             $table->timestamps();
         });
     }

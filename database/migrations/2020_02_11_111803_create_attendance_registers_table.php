@@ -15,6 +15,12 @@ class CreateAttendanceRegistersTable extends Migration
     {
         Schema::create('attendance_registers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('username');
+            $table->string('Id_No');
+            $table->string('visit_day');
+            $table->string('image');
+            $table->string('book_required');
+            $table->string('purpose');
             $table->timestamps();
         });
     }

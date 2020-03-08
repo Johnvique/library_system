@@ -15,6 +15,13 @@ class CreateLibraryBooksTable extends Migration
     {
         Schema::create('library_books', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('isbn');
+            $table->string('book_name');
+            $table->string('quantity');
+            $table->string('price');
+            $table->string('author');
+            $table->string('image');
+            $table->string('category');
             $table->timestamps();
         });
     }

@@ -15,6 +15,8 @@ class ReturnedBooksController extends Controller
     public function index()
     {
         //
+        $returns = ReturnedBooks::all();
+        return view('Admin/returned-books',compact('returns'));
     }
 
     /**
@@ -36,6 +38,14 @@ class ReturnedBooksController extends Controller
     public function store(Request $request)
     {
         //
+        $return = new ReturnedBooks;
+        $return->reg_no=$request->get('reg_no');
+        $return->book_name=$request->get('book_name');
+        $return->isbn=$request->get('isbn');
+        $return->date_returned=$request->get('date_returned');
+
+        $return->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +65,13 @@ class ReturnedBooksController extends Controller
      * @param  \App\ReturnedBooks  $returnedBooks
      * @return \Illuminate\Http\Response
      */
-    public function edit(ReturnedBooks $returnedBooks)
+    public function edit($id)
     {
         //
+        $return = ReturnedBooks::find($id);
+        return view('Admin/edit-returned-books',compact('return'));
+
+        return redirect('returned-books');
     }
 
     /**
@@ -67,9 +81,17 @@ class ReturnedBooksController extends Controller
      * @param  \App\ReturnedBooks  $returnedBooks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ReturnedBooks $returnedBooks)
+    public function update(Request $request, $id)
     {
         //
+        $return = ReturnedBooks::find($id);
+        $return->update([
+            'reg_no'=>$request->reg_no,
+            'book_name'=>$request->book_name,
+            'isbn'=>$request->isbn,
+            'date_returned'=>$request->date_returned,
+        ]);
+        return redirect('returned-books');
     }
 
     /**
@@ -78,8 +100,11 @@ class ReturnedBooksController extends Controller
      * @param  \App\ReturnedBooks  $returnedBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ReturnedBooks $returnedBooks)
+    public function destroy($id)
     {
         //
+        $return = ReturnedBooks::find($id);
+        $return->delete();
+        return redirect('returned-books');
     }
 }

@@ -15,6 +15,10 @@ class CreateBorrowedBooksTable extends Migration
     {
         Schema::create('borrowed_books', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('reg_no');
+            $table->string('book_name');
+            $table->string('isbn');
+            $table->string('date_borrowed');
             $table->timestamps();
         });
     }

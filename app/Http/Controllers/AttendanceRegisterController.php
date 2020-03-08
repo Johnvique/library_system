@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use File;
 use App\AttendanceRegister;
 use Illuminate\Http\Request;
 
@@ -15,6 +15,8 @@ class AttendanceRegisterController extends Controller
     public function index()
     {
         //
+        $registers = AttendanceRegister::all();
+        return view('Admin/attendance-register',compact('registers'));
     }
 
     /**
@@ -36,6 +38,26 @@ class AttendanceRegisterController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->hasFile('image')) {
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('image')->move(public_path('photos'), $fileNameToStore);
+        } else {
+            $fileNameToStore = 'default.jpg';
+        }
+
+        $register = new AttendanceRegister;
+        $register->username=$request->get('username');
+        $register->Id_No=$request->get('Id_No');
+        $register->visit_day=$request->get('visit_day');
+        $register->image=$fileNameToStore;
+        $register->book_required=$request->get('book_required');
+        $register->purpose=$request->get('purpose');
+
+        $register->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +77,13 @@ class AttendanceRegisterController extends Controller
      * @param  \App\AttendanceRegister  $attendanceRegister
      * @return \Illuminate\Http\Response
      */
-    public function edit(AttendanceRegister $attendanceRegister)
+    public function edit($id)
     {
         //
+        $register = AttendanceRegister::find($id);
+        return view('Admin/edit-attendance-register',compact('register'));
+
+        return redirect('attendance-register');
     }
 
     /**
@@ -67,9 +93,19 @@ class AttendanceRegisterController extends Controller
      * @param  \App\AttendanceRegister  $attendanceRegister
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AttendanceRegister $attendanceRegister)
+    public function update(Request $request, $id)
     {
         //
+        $register = AttendanceRegister::find($id);
+        $register->update([
+            'username'=>$request->username,
+            'Id_No'=>$request->Id_No,
+            'visit_day'=>$request->visit_day,
+            'image'=>$request->image,
+            'book_required'=>$request->book_required,
+            'purpose'=>$request->purpose,
+        ]);
+          return redirect('attendance-register');
     }
 
     /**
@@ -78,8 +114,13 @@ class AttendanceRegisterController extends Controller
      * @param  \App\AttendanceRegister  $attendanceRegister
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AttendanceRegister $attendanceRegister)
+    public function destroy($id)
     {
         //
+        $register = AttendanceRegister::find($id);
+        file::delete('photos/'.$register->image);
+        $register->delete();
+
+        return redirect('attendance-register');
     }
 }

@@ -15,6 +15,11 @@ class CreateLostBooksTable extends Migration
     {
         Schema::create('lost_books', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('reg_no');
+            $table->string('book_name');
+            $table->string('isbn');
+            $table->string('date_lost');
+            $table->string('date_paid');
             $table->timestamps();
         });
     }

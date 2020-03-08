@@ -34,7 +34,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img class="img-sider rounded-circle" src=" {{asset('images/lib1.jpg')}}" alt="img-thumbnail" 
+            <img class="img-sider rounded-circle" src=" {{asset('photos/lib1.jpg')}}" class="img-responsive" 
             style="width: 5em; height: 5em">
            
         </div>
@@ -46,7 +46,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-      <a class="nav-link" href="{{asset('admin/index')}}">
+      <a class="nav-link" href="{{asset('Admin/index')}}">
           <i class="fas fa-home"></i>
           <span>Home</span></a>
       </li>
@@ -68,8 +68,8 @@
         <div id="collapseBooks" class="collapse" aria-labelledby="headingBooks" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Books Section:</h6>
-          <a class="collapse-item" href="{{url('/library-books')}}">Add Books</a>
-          <a class="collapse-item" href="{{url('/book-category')}}">Book Category</a>
+          <a class="collapse-item" href="{{url('/Admin/library-books')}}">Add Books</a>
+          <a class="collapse-item" href="{{url('/Admin/book-category')}}">Book Category</a>
           </div>
         </div>
       </li>
@@ -83,9 +83,9 @@
         <div id="collapseCirculation" class="collapse" aria-labelledby="headingCirculation" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Circulation Area:</h6>
-          <a class="collapse-item" href="{{url('/borrowed-books')}}">Borrowed Books</a>
-          <a class="collapse-item" href="{{url('/returned-books')}}">Returned Books</a>
-          <a class="collapse-item" href="{{url('/lost-books')}}">Lost Books</a>
+          <a class="collapse-item" href="{{url('/Admin/borrowed-books')}}">Borrowed Books</a>
+          <a class="collapse-item" href="{{url('/Admin/returned-books')}}">Returned Books</a>
+          <a class="collapse-item" href="{{url('/Admin/lost-books')}}">Lost Books</a>
           </div>
         </div>
       </li>
@@ -94,30 +94,21 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVisit" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Library Visits</span>
+          <span>Attendance Register</span>
         </a>
         <div id="collapseVisit" class="collapse" aria-labelledby="headingVisit" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Visiting Screens:</h6>
-          <a class="collapse-item" href="{{url('/daily-visit')}}">Daily Visit</a>
-            <a class="collapse-item" href="{{url('/weekend-visit')}}">Weekend Visit</a>
-            <a class="collapse-item" href="{{url('/holiday-visit')}}">Holiday Visit</a>
+            <h6 class="collapse-header">Attendance Screens:</h6>
+          <a class="collapse-item" href="{{url('/Admin/attendance-register')}}">Library Attendance</a>
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-      <a class="nav-link" href="{{url('/penalties')}}">
+      <a class="nav-link" href="{{url('/Admin/penalties')}}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Penalties</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-      <a class="nav-link" href="{{url('/attendance-register')}}">
-          <i class="fas fa-user-plus"></i>
-          <span>Attendant Register</span></a>
       </li>
 
 
@@ -130,9 +121,9 @@
                 <div id="collapseManagement" class="collapse" aria-labelledby="headingManagement" data-parent="#accordionSidebar">
                   <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Management Column:</h6>
-                  <a class="collapse-item" href="{{url('/library-officials')}}">System Users</a>
-                    <a class="collapse-item" href="{{url('/user-roles')}}">User Roles</a>
-                    <a class="collapse-item" href="{{url('/user-permissions')}}">User Permissions</a>
+                  <a class="collapse-item" href="{{url('/Admin/library-officials')}}">System Users</a>
+                    <a class="collapse-item" href="{{url('/Admin/user-roles')}}">User Roles</a>
+                    <a class="collapse-item" href="{{url('/Admin/user-permissions')}}">User Permissions</a>
                   </div>
                 </div>
               </li>
@@ -167,7 +158,7 @@
             <div class="input-group">
                 <div class="card">
                     <div class="card-body bg-secondary text-white">
-                        <h5>Gendia High School Library System</h5>
+                        <h5>SCHOOL LIBRARY MANAGEMENT SYSTEM</h5>
                     </div>
                 </div>
             </div>
@@ -202,7 +193,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-              <img class="img-profile rounded-circle" src="{{asset('images/lib1.jpg')}}">
+              <img class="img-profile rounded-circle" src="{{asset('photos/lib1.jpg')}}">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -282,7 +273,7 @@
   <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+  <script src="{{asset('js/sb-Admin-2.min.js')}}"></script>
 
   <!-- Page level plugins -->
   <script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>

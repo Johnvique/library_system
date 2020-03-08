@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use File;
 use App\LibraryBooks;
 use Illuminate\Http\Request;
 
@@ -15,6 +15,8 @@ class LibraryBooksController extends Controller
     public function index()
     {
         //
+        $books = LibraryBooks::all();
+        return view('admin/library-books',compact('books'));
     }
 
     /**
@@ -36,6 +38,27 @@ class LibraryBooksController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->hasFile('image')) {
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('image')->move(public_path('photos'), $fileNameToStore);
+        } else {
+            $fileNameToStore = 'default.jpg';
+        }
+
+        $book = new LibraryBooks;
+        $book->isbn=$request->get('isbn');
+        $book->book_name=$request->get('book_name');
+        $book->quantity=$request->get('quantity');
+        $book->price=$request->get('price');
+        $book->author=$request->get('author');
+        $book->image=$fileNameToStore;
+        $book->category=$request->get('category');
+
+        $book->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +78,13 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function edit(LibraryBooks $libraryBooks)
+    public function edit($id)
     {
         //
+        $book = LibraryBooks::find($id);
+        return view('Admin/edit-library-books',compact('book'));
+
+        return redirect('library-books');
     }
 
     /**
@@ -67,9 +94,21 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LibraryBooks $libraryBooks)
+    public function update(Request $request, $id)
     {
         //
+        $book = LibraryBooks::find($id); 
+        $book->update([
+            'isbn'=>$request->isbn,
+            'book_name'=>$request->book_name,
+            'quantity'=>$request->quantity,
+            'price'=>$request->price,
+            'author'=>$request->author,
+            'image'=>$request->image,
+            'category'=>$request->category,
+        ]);
+
+        return redirect('library-books');
     }
 
     /**
@@ -78,8 +117,13 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LibraryBooks $libraryBooks)
+    public function destroy($id)
     {
         //
+        $book = LibraryBooks::find($id);
+        file::delete('photos/'.$book->image);
+        $book->delete();
+        return redirect('library-books');
+
     }
 }

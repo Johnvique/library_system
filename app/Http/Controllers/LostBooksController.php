@@ -15,6 +15,8 @@ class LostBooksController extends Controller
     public function index()
     {
         //
+        $losts = LostBooks::all();
+        return view('Admin/lost-books',compact('losts'));
     }
 
     /**
@@ -36,6 +38,15 @@ class LostBooksController extends Controller
     public function store(Request $request)
     {
         //
+        $lost = new LostBooks;
+        $lost->reg_no=$request->get('reg_no');
+        $lost->book_name=$request->get('book_name');
+        $lost->isbn=$request->get('isbn');
+        $lost->date_lost=$request->get('date_lost');
+        $lost->date_paid=$request->get('date_paid');
+
+        $lost->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +66,13 @@ class LostBooksController extends Controller
      * @param  \App\LostBooks  $lostBooks
      * @return \Illuminate\Http\Response
      */
-    public function edit(LostBooks $lostBooks)
+    public function edit($id)
     {
         //
+        $lost = LostBooks::find($id);
+        return view('Admin/edit-lost-books',compact('lost'));
+
+        return redirect('lost-books');
     }
 
     /**
@@ -67,9 +82,18 @@ class LostBooksController extends Controller
      * @param  \App\LostBooks  $lostBooks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LostBooks $lostBooks)
+    public function update(Request $request, $id)
     {
         //
+        $lost = LostBooks::find($id);
+        $lost->update([
+            'reg_no'=>$request->reg_no,
+            'book_name'=>$request->book_name,
+            'isbn'=>$request->isbn,
+            'date_lost'=>$request->date_lost,
+            'date_paid'=>$request->date_paid,
+        ]);
+        return redirect('lost-books');
     }
 
     /**
@@ -78,8 +102,12 @@ class LostBooksController extends Controller
      * @param  \App\LostBooks  $lostBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LostBooks $lostBooks)
+    public function destroy($id)
     {
         //
+        $lost = LostBooks::find($id);
+        $lost->delete();
+
+        return redirect('lost-books');
     }
 }

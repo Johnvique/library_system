@@ -15,6 +15,8 @@ class BookCategoryController extends Controller
     public function index()
     {
         //
+        $categories = BookCategory::all();
+        return view('Admin/book-category',compact('categories'));
     }
 
     /**
@@ -36,6 +38,12 @@ class BookCategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $category = new BookCategory;
+        $category->purpose=$request->get('purpose');
+        $category->category=$request->get('category');
+
+        $category->save();
+         return redirect()->back();
     }
 
     /**
@@ -55,9 +63,12 @@ class BookCategoryController extends Controller
      * @param  \App\BookCategory  $bookCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(BookCategory $bookCategory)
+    public function edit( $id)
     {
         //
+        $category = BookCategory::find($id);
+        return view('Admin/edit-book-category',compact('category'));
+        return redirect('book-category');
     }
 
     /**
@@ -67,9 +78,16 @@ class BookCategoryController extends Controller
      * @param  \App\BookCategory  $bookCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BookCategory $bookCategory)
+    public function update(Request $request,$id)
     {
         //
+        $category = BookCategory::find($id);
+        $category->update([
+            'purpose'=>$request->purpose,
+            'category'=>$request->category,
+        ]);
+        return redirect('book-category');
+
     }
 
     /**
@@ -78,8 +96,11 @@ class BookCategoryController extends Controller
      * @param  \App\BookCategory  $bookCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BookCategory $bookCategory)
+    public function destroy($id)
     {
         //
+        $category = BookCategory::find($id);
+        $category->delete();
+        return redirect('book-category');
     }
 }

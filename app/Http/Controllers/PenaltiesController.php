@@ -15,6 +15,8 @@ class PenaltiesController extends Controller
     public function index()
     {
         //
+        $penalties = Penalties::all();
+        return view('Admin/penalties',compact('penalties'));
     }
 
     /**
@@ -36,6 +38,15 @@ class PenaltiesController extends Controller
     public function store(Request $request)
     {
         //
+        $penalty = new Penalties;
+        $penalty->name=$request->get('name');
+        $penalty->penalty=$request->get('penalty');
+        $penalty->reason=$request->get('reason');
+        $penalty->date_charged=$request->get('date_charged');
+        $penalty->timeline=$request->get('timeline');
+
+        $penalty->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +66,13 @@ class PenaltiesController extends Controller
      * @param  \App\Penalties  $penalties
      * @return \Illuminate\Http\Response
      */
-    public function edit(Penalties $penalties)
+    public function edit($id)
     {
         //
+        $penalty = Penalties::find($id);
+        return view('Admin/edit-penalties',compact('penalty'));
+
+        return redirect('penalties');
     }
 
     /**
@@ -67,9 +82,18 @@ class PenaltiesController extends Controller
      * @param  \App\Penalties  $penalties
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Penalties $penalties)
+    public function update(Request $request, $id)
     {
         //
+        $penalty = Penalties::find($id);
+        $penalty->update([
+            'name'=>$request->name,
+            'penalty'=>$request->penalty,
+            'reason'=>$request->reason,
+            'date_charged'=>$request->date_charged,
+            'timeline'=>$request->timeline,
+        ]);
+           return redirect('penalties');
     }
 
     /**
@@ -78,8 +102,12 @@ class PenaltiesController extends Controller
      * @param  \App\Penalties  $penalties
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Penalties $penalties)
+    public function destroy($id)
     {
         //
+        $penalty = Penalties::find($id);
+        $penalty->delete();
+
+        return redirect('penalties');
     }
 }

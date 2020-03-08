@@ -16,50 +16,27 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/admin/index', function () {
-        return view('admin/index');
+    Route::get('/Admin/index', function () {
+        return view('Admin/index');
     });
-    Route::get('/admin/library-books', function () {
-        return view('admin/library-books');
+    Route::get('/Admin/library-books', 'LibraryBooksController@index');
+    Route::get('/Admin/book-category', 'BookCategoryController@index');
+    Route::get('/Admin/system-settings', function () {
+        return view('Admin/system-settings');
     });
-    Route::get('/admin/book-category', function () {
-        return view('admin/book-category');
+    Route::get('/Admin/borrowed-books', 'BorrowedBooksController@index');
+    Route::get('/Admin/returned-books', 'ReturnedBooksController@index');
+    Route::get('/Admin/lost-books', 'LostBooksController@index');
+    Route::get('/Admin/attendance-register', 'AttendanceRegisterController@index');
+    Route::get('/Admin/penalties', 'PenaltiesController@index');
+    Route::get('/Admin/library-officials', function () {
+        return view('Admin/library-officials');
     });
-    Route::get('/admin/system-settings', function () {
-        return view('admin/system-settings');
+    Route::get('/Admin/user-roles', function () {
+        return view('Admin/user-roles');
     });
-    Route::get('/admin/borrowed-books', function () {
-        return view('admin/borrowed-books');
-    });
-    Route::get('/admin/returned-books', function () {
-        return view('admin/returned-books');
-    });
-    Route::get('/admin/lost-books', function () {
-        return view('admin/lost-books');
-    });
-    Route::get('/admin/daily-visit', function () {
-        return view('admin/daily-visit');
-    });
-    Route::get('/admin/weekend-visit', function () {
-        return view('admin/weekend-visit');
-    });
-    Route::get('/admin/holiday-visit', function () {
-        return view('admin/holiday-visit');
-    });
-    Route::get('/admin/penalties', function () {
-        return view('admin/penalties');
-    });
-    Route::get('/admin/attendance-register', function () {
-        return view('admin/attendance-register');
-    });
-    Route::get('/admin/library-officials', function () {
-        return view('admin/library-officials');
-    });
-    Route::get('/admin/user-roles', function () {
-        return view('admin/user-roles');
-    });
-    Route::get('/admin/user-permissions', function () {
-        return view('admin/user-permissions');
+    Route::get('/Admin/user-permissions', function () {
+        return view('Admin/user-permissions');
     });
 });
 
@@ -72,9 +49,6 @@ Route::resource('book-category', 'BookCategoryController');
 Route::resource('borrowed-books', 'BorrowedBooksController');
 Route::resource('returned-books', 'ReturnedBooksController');
 Route::resource('lost-books', 'LostBooksController');
-Route::resource('daily-visit', 'DailyVisitController');
-Route::resource('weekend-visit', 'WeekendVisitController');
-Route::resource('holiday-visit', 'HolidayVisitController');
 Route::resource('penalties', 'PenaltiesController');
 Route::resource('attendance-register', 'AttendanceRegisterController');
 Route::resource('library-officials', 'LibraryOfficialsController');

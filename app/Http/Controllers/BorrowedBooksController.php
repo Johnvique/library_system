@@ -15,6 +15,8 @@ class BorrowedBooksController extends Controller
     public function index()
     {
         //
+        $borrows = BorrowedBooks::all();
+        return view('Admin/borrowed-books',compact('borrows'));
     }
 
     /**
@@ -36,6 +38,14 @@ class BorrowedBooksController extends Controller
     public function store(Request $request)
     {
         //
+        $borrow = new BorrowedBooks;
+        $borrow->reg_no=$request->get('reg_no');
+        $borrow->book_name=$request->get('book_name');
+        $borrow->isbn=$request->get('isbn');
+        $borrow->date_borrowed=$request->get('date_borrowed');
+
+        $borrow->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +65,13 @@ class BorrowedBooksController extends Controller
      * @param  \App\BorrowedBooks  $borrowedBooks
      * @return \Illuminate\Http\Response
      */
-    public function edit(BorrowedBooks $borrowedBooks)
+    public function edit($id)
     {
         //
+        $borrow = BorrowedBooks::find($id);
+        return view('Admin/edit-borrowed-books',compact('borrow'));
+
+        return redirect('borrowed-books');
     }
 
     /**
@@ -67,9 +81,17 @@ class BorrowedBooksController extends Controller
      * @param  \App\BorrowedBooks  $borrowedBooks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BorrowedBooks $borrowedBooks)
+    public function update(Request $request, $id)
     {
         //
+        $borrow = BorrowedBooks::find($id);
+        $borrow->update([
+            'reg_no'=>$request->reg_no,
+            'book_name'=>$request->book_name,
+            'isbn'=>$request->isbn,
+            'date_borrowed'=>$request->date_borrowed,
+        ]);
+            return redirect('borrowed-books');
     }
 
     /**
@@ -78,8 +100,11 @@ class BorrowedBooksController extends Controller
      * @param  \App\BorrowedBooks  $borrowedBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BorrowedBooks $borrowedBooks)
+    public function destroy($id)
     {
         //
+        $borrow = BorrowedBooks::find($id);
+        $borrow->delete();
+        return redirect('borrowed-books');
     }
 }
